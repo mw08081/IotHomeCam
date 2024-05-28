@@ -26,8 +26,12 @@ setup(app, EncryptedCookieStorage(SETTING['SECRET_KEY'], cookie_name=SETTING['CO
 async def web_server():
     app.router.add_static('/static/', path='static/', name='static')    # /static은 직접 설정한 폴더위치 -> http://ipAddr/static/~
 
-   
-    app.router.add_get('/', mainHandle) #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 가뿌려준다)
+    app.router.add_get('/', mainHandle)
+
+    app.router.add_get('/management', mainHandle) #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 가뿌려준다)
+
+
+
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, '0.0.0.0', 5000) # http://본인아이피:5000
