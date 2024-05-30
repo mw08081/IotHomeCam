@@ -1,7 +1,7 @@
 from common import get_system_info, sio  # common.py에서 get_system_info 함수, sio 변수를 가져옵니다.
 
 from gpio_3_color_led import start_rgb_3color_leds, stop_rgb_3color_leds, rgb_3color_leds_state
-# from gpio_homecam_management import 
+from gpio_homecam_management import start_streaming, stop_streaming
 
 @sio.event
 async def connect(sid, environ):
@@ -35,14 +35,14 @@ async def on_get_3color_led(sid, data):
 
 
 @sio.on('set_homecam_state')
-async def on_set_3color_led(sid, data):
+async def on_set_homecam_state(sid, data):
     print("set_homecam_State", sid, data)
     if data['data'] == 'on':
         print('on')
-        # await start_rgb_3color_leds()
+        await start_streaming()
     elif data['data'] == 'off':
         print('off')
-        # await stop_rgb_3color_leds()
+        await stop_streaming()
 
     # 안보내도될거같은데;; line 27
     # data['state'] = await rgb_3color_leds_state()

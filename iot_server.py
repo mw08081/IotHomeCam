@@ -13,7 +13,7 @@ import json
 #import psutil #pip install psutil
 #import subprocess
 from common import web, app  # socket_events.py에서 sio 인스턴스를 가져옵니다.
-from request_handlers import mainHandle  # request_handlers.py에서 mainHandle 함수를 가져옵니다.
+from request_handlers import mainHandle, video_feed, managementHandle  # request_handlers.py에서 mainHandle 함수를 가져옵니다.
 import socket_events
 
 
@@ -26,9 +26,10 @@ setup(app, EncryptedCookieStorage(SETTING['SECRET_KEY'], cookie_name=SETTING['CO
 async def web_server():
     app.router.add_static('/static/', path='static/', name='static')    # /static은 직접 설정한 폴더위치 -> http://ipAddr/static/~
 
-    app.router.add_get('/', mainHandle)
+    app.router.add_get('/', mainHandle)                 #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 가뿌려준다)
+    app.router.add_get('/video_feed', video_feed) 
 
-    app.router.add_get('/management', mainHandle) #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 가뿌려준다)
+    app.router.add_get('/management', managementHandle) 
 
 
 

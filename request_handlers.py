@@ -1,7 +1,18 @@
 
 from common import response_html
+
 async def mainHandle(request):
     return response_html('index.html')
+
+async def video_feed(request):
+    return response_html('homecam.html')
+
+
+
+
+
+
+
 
 async def managementHandle(request):
     return response_html('management.html')
