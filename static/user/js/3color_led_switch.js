@@ -1,5 +1,5 @@
 $(function () {
-    $('.rgb-3color-led-switch').bootstrapSwitch();
+    // $('.rgb-3color-led-switch').bootstrapSwitch();
     // 스위치 상태 변경 이벤트 핸들러 등록
     $('.rgb-3color-led-switch').on('switchChange.bootstrapSwitch', function (event, state) {
         if (state) {

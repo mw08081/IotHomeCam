@@ -44,7 +44,7 @@
 
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							<a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> CCTV Management
+							<a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> Camera Management
 						</h3>
 					</div>
 
@@ -55,8 +55,8 @@
 						<div class="col-md-6">
 							<ul id="myTab" class="nav nav-pills nav-justified">
 
-								<li class="active"><a href="#Switch" data-toggle="tab">WallPadViewer</a></li>
-								<li><a href="#Setting" data-toggle="tab">Setting</a></li>
+								<li class="active"><a href="#Wallpad" data-toggle="tab">Wall Pad Viewer</a></li>
+								<li><a href="#Homecam" data-toggle="tab">Home Cam Viewer</a></li>
 							</ul>
 						</div>
 						<!-- Tab Menu End-->
@@ -64,15 +64,21 @@
 						<div id="myTabContent" class="tab-content col-md-12">
 
 							<!-- wall pad viewer -->
-							<div class="tab-pane fade active in" id="Switch">
+							<div class="tab-pane fade active in" id="Wallpad">
                                 <div class="tab-content col-md-12" style="border-top: 1px solid #80808069; padding-top: 10px;">
                                     <div class="content-row">
                                         <div class="col-md-12" >
                                             <!-- Switch Button -->
-                                            <input type="checkbox" class="rgb-3color-led-switch">                                      
+                                            <input type="checkbox" class="homecam-switch">                                      
                                         </div>                                        
-                                        <div class="row"></div>
-                                        <div class="row"></div>
+                                        <div class="row">
+											<!-- Stream Homecam -->
+											<img id="streamHomecam" src="/video_feed" style="display:none;">
+										</div>
+                                        <div class="row">
+											<!-- Switch Button -->
+											<!-- <input type="checkbox" class="rgb-3color-led-switch">                   -->
+										</div>
                                         <div class="row"></div>
                                         <div class="row"></div>
                                         <div class="row"></div>
@@ -85,7 +91,7 @@
 							<!-- wall pad viewer -->
 
 							<!-- 세팅 -->
-							<div class="tab-pane fade" id="Setting">
+							<div class="tab-pane fade" id="Homecam">
 
 								<div class="tab-content col-md-12"
 									style="border-top: 1px solid #80808069; padding-top: 10px;">
@@ -335,6 +341,7 @@
 <script type="text/javascript" src="static/lib/js/dataTables.bootstrap.min.js"></script>
 <script src="static/user/js/system_info.js?var={{rand}}"></script>
 <script src="static/user/js/3color_led_switch.js?var={{rand}}"></script>
+<script src="static/user/js/HomeCam_switch.js?var={{rand}}"></script>
 <script>
 alertShow('');
 </script>
