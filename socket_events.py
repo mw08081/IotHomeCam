@@ -2,6 +2,7 @@ from common import get_system_info, sio  # common.py에서 get_system_info 함�
 
 from gpio_3_color_led import start_rgb_3color_leds, stop_rgb_3color_leds, rgb_3color_leds_state
 from gpio_homecam_management import start_streaming, stop_streaming
+from gpio_temperature import start_temperature
 
 @sio.event
 async def connect(sid, environ):
@@ -39,7 +40,7 @@ async def on_set_homecam_state(sid, data):
     print("set_homecam_State", sid, data)
     if data['data'] == 'on':
         print('on')
-        await start_streaming()
+        await start_streaming(sio, sid)
     elif data['data'] == 'off':
         print('off')
         await stop_streaming()
@@ -48,8 +49,12 @@ async def on_set_homecam_state(sid, data):
     # data['state'] = await rgb_3color_leds_state()
     # await sio.emit('ret_3color_led', data, room=sid)
 
-# @sio.on('get_3color_led')
+# @sio.on('get_homecam_state')
 # async def on_get_3color_led(sid, data):
 #     data['state'] = await rgb_3color_leds_state()
 #     await sio.emit('ret_3color_led', data, room=sid)
 
+@sio.on('get_temperature')
+async def on_get_temperature(sid, data):
+    await start_temperature(sio, sid)
+    #data['state'] = await temperature_state()

@@ -1,10 +1,15 @@
 from flask import Flask, render_template, Response
 from picamera2 import Picamera2
+
+import RPi.GPIO as GPIO
 import io
 import time
 
 app = Flask(__name__)
 camera = None
+GPIO.setmode(GPIO.BCM)
+
+bPin = 21
 
 def init_camera():
     global camera
@@ -14,6 +19,9 @@ def init_camera():
         camera.configure(camera.create_preview_configuration(main={"size": (640, 480)}))
         camera.start()
 
+        GPIO.setup(bPin, GPIO.OUT)
+        GPIO.output(bPin, 1)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -21,7 +29,7 @@ def index():
 def generate_frames():
     global camera
     while True:
-        time.sleep(0.1)
+        time.sleep(0.01)
         frame = get_frame()
         if frame:
             yield (b'--frame\r\n'
@@ -51,3 +59,4 @@ if __name__ == '__main__':
         if camera:
             camera.stop()
             camera.close()
+            GPIO.output(bPin, 0)

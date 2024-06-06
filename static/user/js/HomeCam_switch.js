@@ -19,14 +19,15 @@ $(function () {
         }
     });
 
-
-    // socket.emit('get_3color_led', {});
-    // socket.on('ret_3color_led', function(data) {
-    //     console.log("스위치 상태", data);
-    //     if (data.state) {
-    //         $('.rgb-3color-led-switch').bootstrapSwitch('state', true, true);  // 스위치를 ON 상태로 설정
-    //     } else {
-    //         $('.rgb-3color-led-switch').bootstrapSwitch('state', false, true); // 스위치를 OFF 상태로 설정
-    //     }
-    // });    
+    socket.on('ret_homecam_active', function (data) {
+      console.log('homecam streaming ...');
+      // Blob URL 생성
+      const blob = new Blob([data], { type: 'image/jpeg' });
+      const blobURL = URL.createObjectURL(blob);
+    
+      // `img` 요소에 Blob URL 적용
+      const img = document.getElementById('streamHomecam');
+      img.src = blobURL;
+      
+    });
 });
