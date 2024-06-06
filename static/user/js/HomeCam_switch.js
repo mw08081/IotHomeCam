@@ -19,6 +19,22 @@ $(function () {
         }
     });
 
+    socket.emit('get_homecam_state', {});
+    socket.on('set_homecam_switch_state', function(data) {
+      console.log('homecam switch state : ', data);
+
+      const img = document.getElementById('streamHomecam');
+      if(data.state) {
+        $('.homecam-switch').bootstrapSwitch('state', true, true);  // 스위치를 ON 상태로 설정
+        img.style.display = 'block';
+        socket.emit('set_homecam_state', {'data':'on'});
+      } else {
+        $('.homecam-switch').bootstrapSwitch('state', false, true);  // 스위치를 Off 상태로 설정
+        img.style.display = 'none';
+        socket.emit('set_homecam_state', {'data':'off'});
+      }
+    })
+    
     socket.on('ret_homecam_active', function (data) {
       console.log('homecam streaming ...');
       // Blob URL 생성

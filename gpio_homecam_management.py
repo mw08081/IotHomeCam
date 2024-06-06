@@ -79,3 +79,7 @@ async def stop_streaming():
             print("스레드가 제시간에 종료되지 않았습니다.")
         else:
             print("스레드가 성공적으로 종료되었습니다.")
+
+async def get_is_streaming() :
+    global is_homecamStreaming
+    return is_homecamStreaming
