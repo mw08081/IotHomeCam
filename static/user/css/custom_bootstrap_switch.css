@@ -1,0 +1,8 @@
+/* 사용자 정의 스타일 */
+.hidden-switch {
+    display: none !important; /* 스위치 숨기기 */
+}
+
+.right_side_switch {
+    margin-left: 40px;
+}

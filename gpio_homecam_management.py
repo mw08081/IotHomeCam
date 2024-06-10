@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+# from flask import Flask, render_template, Response
 from picamera2 import Picamera2
 import io
 import time
@@ -72,6 +72,8 @@ async def start_streaming(sio, sid):
         asyncio.set_event_loop(loop)
         homecam_streaming_thread = threading.Thread(target = streaming, args=(sio, sid))
         homecam_streaming_thread.start()
+    elif is_homecamStreaming == True and homecam_streaming_thread is not None :
+        pass
 
 async def stop_streaming():
     global is_homecamStreaming, homecam_streaming_thread

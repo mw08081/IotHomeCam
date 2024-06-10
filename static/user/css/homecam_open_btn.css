@@ -1,0 +1,19 @@
+#wallPad_open_btn {
+    background-color: #4caf50; /* 버튼 배경색 */
+    border: none;              /* 테두리 없음 */
+    color: white;              /* 글자색 */
+    padding: 6px 26px;        /* 패딩 */
+    text-align: center;        /* 텍스트 정렬 */
+    text-decoration: none;     /* 텍스트 장식 없음 */
+    display: inline-block;     /* 인라인 블록 */
+    font-size: 16px;           /* 폰트 크기 */
+    margin: 4px 2px;           /* 마진 */
+    cursor: pointer;           /* 커서 포인터 */
+    border-radius: 6px;       /* 모서리 둥글게 */
+}
+#wallPad_open_btn:hover {
+    background-color: #38863b; /* 마우스 오버 시 배경색 */
+}
+#wallPad_open_btn:active {
+    background-color: #38863b; /* 버튼 눌릴 때 배경색 */
+}

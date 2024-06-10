@@ -13,7 +13,7 @@ import json
 #import psutil #pip install psutil
 #import subprocess
 from common import web, app  # socket_events.py에서 sio 인스턴스를 가져옵니다.
-from request_handlers import mainHandle, video_feed, managementHandle, temperatureHandle  # request_handlers.py에서 mainHandle 함수를 가져옵니다.
+from request_handlers import mainHandle, video_feed, managementHandle, temperatureHandle, lightHandle  # request_handlers.py에서 mainHandle 함수를 가져옵니다.
 import socket_events
 
 
@@ -29,8 +29,8 @@ async def web_server():
     app.router.add_get('/', mainHandle)                 #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 가뿌려준다)
     app.router.add_get('/video_feed', video_feed) 
     app.router.add_get('/temperature', temperatureHandle)
-
-    app.router.add_get('/management', managementHandle) 
+    app.router.add_get('/light', lightHandle)
+    # app.router.add_get('/management', managementHandle) 
 
 
     runner = web.AppRunner(app)

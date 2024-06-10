@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8">
-    <title>실시간 온습도 차트</title>
+    <title>조명 관리</title>
     <meta name="viewport"
         content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="favicon_16.ico" />
@@ -21,6 +21,7 @@
     {% include 'common/css.html' %}
     <!-- bootstrap-switch 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="static/user/css/custom_bootstrap_switch.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
     <!-- bootstrap-switch 추가 -->
 </head>
@@ -48,16 +49,22 @@
                         <!-- Tab Menu -->
                         <div class="col-md-6">
                             <ul id="myTab" class="nav nav-pills nav-justified">
-                                <li class="active"><a href="#Temperature" data-toggle="tab">Temperature</a></li>
+                                <li class="active"><a href="#Light" data-toggle="tab">Light</a></li>
                             </ul>
                         </div>
                         <!-- Tab Menu End-->
                         <div id="myTabContent" class="tab-content col-md-12">
-                            <div class="tab-pane fade active in" id="Temperature">
+                            <div class="tab-pane fade active in" id="Light">
                                 <div class="tab-content col-md-12" style="border-top: 1px solid #80808069; padding-top: 10px;">
                                     <div class="content-row">
-                                        <canvas id="tempChart"></canvas>
-                                        <!-- row -->
+                                        <div>
+                                            <p>When the switch is set to auto, the lighting system is operated by the PIR sensor. Otherwise, the lighting system operates under user control.</p>
+                                        </div>
+                                        <div class="col-md-12" style="display: flex; align-items: center;">
+                                            <!-- Switch Button -->
+											<input type="checkbox" class="auto_switch" checked data-on-text="AUTO" data-off-text="MANUAL">
+											<input type="checkbox" class="onOff_switch" style="display: none; margin-left : 40px">
+										</div>
                                     </div>
                                     <!-- content-row -->
                                 </div>
@@ -118,59 +125,9 @@
 <script type="text/javascript" src="static/lib/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="static/lib/js/dataTables.bootstrap.min.js"></script>
 <script src="static/user/js/system_info.js?var={{rand}}"></script>
+<script src="static/user/js/_lightControl_switch.js?var={{rand}}"></script>
 <script>
 alertShow('');
-// 차트 설정
-const ctx = document.getElementById('tempChart').getContext('2d');
-const tempChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [],  // 빈 레이블 배열
-        datasets: [{
-            label: '온도 (°C)',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            data: []
-        }, {
-            label: '습도 (%)',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            data: []
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: false
-            }
-        }
-    }
-});
-
-$(function(){
-    // 최초 데이터 요청
-    socket.emit('get_temperature', {});
-    socket.on('ret_temperature', function(data) {
-        console.log("온도",data)
-        const now = new Date();
-        const timeLabel = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-        const temperature = data.temperature
-        const humidity = data.humidity
-        if(!(temperature == 0 && humidity == 0)){
-            if (tempChart.data.labels.length > 20) {
-                tempChart.data.labels.shift();  // 레이블 배열에서 첫 번째 요소 제거
-                tempChart.data.datasets.forEach((dataset) => {
-                    dataset.data.shift();  // 데이터셋에서 첫 번째 데이터 제거
-                });
-            }
-            tempChart.data.labels.push(timeLabel);
-            tempChart.data.datasets[0].data.push(temperature);
-            tempChart.data.datasets[1].data.push(humidity);
-            tempChart.update();
-        }
-    });
-
-})
 
 </script>
 </html>

@@ -25,6 +25,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
 <!-- bootstrap-switch 추가 -->
+
+
+<!-- custum : 내가 추가한 코드들 !!!!!!!!!!!!!-->
+<!-- button style 추가 -->
+<link rel="stylesheet" href="static/user/css/homecam_open_btn.css"> 
+<!-- sweetalret 추가  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- custum : 내가 추가한 코드들 -->
+
+
 </head>
 <body>
 	<!-- https://www.w3schools.com/bootstrap/default.asp -->	
@@ -67,17 +77,19 @@
 							<div class="tab-pane fade active in" id="Wallpad">
                                 <div class="tab-content col-md-12" style="border-top: 1px solid #80808069; padding-top: 10px;">
                                     <div class="content-row">
-                                        <div class="col-md-12" >
+										<div class="col-md-12" style="display: flex; align-items: center;">
                                             <!-- Switch Button -->
-                                            <input type="checkbox" class="homecam-switch">                                      
+                                            
+											<input type="checkbox" class="homecam-switch">
+											<button id="wallPad_open_btn" onclick="wallpad_open_onClick()" style="display: none;margin-left: 50px;">OPEN</button>
+										</div>
                                         </div>                                        
                                         <div class="row">
 											<!-- Stream Homecam -->
-											<img id="streamHomecam" src="/video_feed" style="display:none;">
+											<img id="streamHomecam" style="display:none;">
 										</div>
                                         <div class="row">
-											<!-- Switch Button -->
-											<!-- <input type="checkbox" class="rgb-3color-led-switch">                   -->
+											<!-- <button id="wallPad_open_btn" onclick="wallPad_open_onClick()" style="display:none;">OPEN</button> -->
 										</div>
                                         <div class="row"></div>
                                         <div class="row"></div>
@@ -340,9 +352,11 @@
 <script type="text/javascript" src="static/lib/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="static/lib/js/dataTables.bootstrap.min.js"></script>
 <script src="static/user/js/system_info.js?var={{rand}}"></script>
-<script src="static/user/js/3color_led_switch.js?var={{rand}}"></script>
-<script src="static/user/js/HomeCam_switch.js?var={{rand}}"></script>
-<script>
+<!-- <script src="static/user/js/3color_led_switch.js?var={{rand}}"></script> -->
+
+
+<script src="static/user/js/_homeCam_switch.js?var={{rand}}"></script>
+<script src="static/user/js/_wallPad_open_btn.js?var={{rand}}"></script>>
 alertShow('');
 </script>
 

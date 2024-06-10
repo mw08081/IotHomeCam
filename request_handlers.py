@@ -7,9 +7,11 @@ async def mainHandle(request):
 async def video_feed(request):
     return response_html('homecam.html')
 
-
 async def temperatureHandle(request):
     return response_html('temperature.html')
+
+async def lightHandle(request):
+    return response_html('light.html')
 
 
 

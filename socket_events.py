@@ -2,6 +2,7 @@ from common import get_system_info, sio  # common.py에서 get_system_info 함�
 
 from gpio_3_color_led import start_rgb_3color_leds, stop_rgb_3color_leds, rgb_3color_leds_state
 from gpio_homecam_management import start_streaming, stop_streaming, get_is_streaming
+from gpio_wallpad_open import open_wallpad
 from gpio_temperature import start_temperature
 
 @sio.event
@@ -16,23 +17,23 @@ async def on_get_system_info(sid, data):
     await sio.emit('ret_system_info', systemInfo, room=sid)
 
 
-@sio.on('set_3color_led')
-async def on_set_3color_led(sid, data):
-    print("set_3color_led", sid, data)
-    if data['data'] == 'on':
-        await start_rgb_3color_leds()
-    elif data['data'] == 'off':
-        print("led 스위치 off", sid, data)
-        await stop_rgb_3color_leds()
+# @sio.on('set_3color_led')
+# async def on_set_3color_led(sid, data):
+#     print("set_3color_led", sid, data)
+#     if data['data'] == 'on':
+#         await start_rgb_3color_leds()
+#     elif data['data'] == 'off':
+#         print("led 스위치 off", sid, data)
+#         await stop_rgb_3color_leds()
 
-    # 이거 안보내도 될거같은데;;
-    # data['state'] = await rgb_3color_leds_state()
-    # await sio.emit('ret_3color_led', data, room=sid)
+#     # 이거 안보내도 될거같은데;;
+#     # data['state'] = await rgb_3color_leds_state()
+#     # await sio.emit('ret_3color_led', data, room=sid)
 
-@sio.on('get_3color_led')
-async def on_get_3color_led(sid, data):
-    data['state'] = await rgb_3color_leds_state()
-    await sio.emit('ret_3color_led', data, room=sid)
+# @sio.on('get_3color_led')
+# async def on_get_3color_led(sid, data):
+#     data['state'] = await rgb_3color_leds_state()
+#     await sio.emit('ret_3color_led', data, room=sid)
 
 
 @sio.on('set_homecam_state')
@@ -52,6 +53,10 @@ async def on_get_homecam_state(sid, data):
     # await sio.emit('ret_homecam_active', data, room=sid)
     # if (data['state']) :
     #     await start_streaming(sio, sid)
+
+@sio.on('ret_wallpad_open')
+async def on_ret_wallpad_open(sid):
+    await open_wallpad()
 
 @sio.on('get_temperature')
 async def on_get_temperature(sid, data):

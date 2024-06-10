@@ -16,8 +16,8 @@ async def send_temperature_data(sio, data, sid):
     await sio.emit('ret_temperature', data, room=sid)
     
 def cycle_temperature(sio, sid):
-    print("cycle temp")
     global is_temperature, temperature_thread
+
    
     while is_temperature :
         try:
@@ -50,11 +50,23 @@ def cycle_temperature(sio, sid):
         except Exception as error:
             dht_device.exit()
             raise error
-        # 10초 동안 대기
+        # 2초 동안 대기
         time.sleep(2)
+
 async def start_temperature(sio, sid):
     global is_temperature, temperature_thread
     if temperature_thread is None or not temperature_thread.is_alive():
         is_temperature = True
         temperature_thread = threading.Thread(target=cycle_temperature, args=(sio, sid))
         temperature_thread.start()
+    elif temperature_thread is not None and is_temperature == True :
+        # 재시작 : 스레드 재실행해줘야함
+        is_temperature = False
+        temperature_thread.join()  
+        if temperature_thread.is_alive():
+            print("스레드가 제시간에 종료되지 않았습니다.")
+        else:
+            print("스레드가 성공적으로 종료되었습니다. 재시작합니다.")
+            is_temperature = True
+            temperature_thread = threading.Thread(target=cycle_temperature, args=(sio, sid))
+            temperature_thread.start()      
