@@ -39,6 +39,7 @@ async def on_get_3color_led(sid, data):
 async def on_set_homecam_state(sid, data):
     print("set_homecam_State", sid, data)
     if data['data'] == 'on':
+        print(sid, data)
         await start_streaming(sio, sid)
     elif data['data'] == 'off':
         await stop_streaming()
@@ -48,7 +49,9 @@ async def on_get_homecam_state(sid, data):
     data['state'] = await get_is_streaming()
     print(data)
     await sio.emit('set_homecam_switch_state', data, room=sid)
-    await sio.emit('ret_3color_led', data, room=sid)
+    # await sio.emit('ret_homecam_active', data, room=sid)
+    # if (data['state']) :
+    #     await start_streaming(sio, sid)
 
 @sio.on('get_temperature')
 async def on_get_temperature(sid, data):

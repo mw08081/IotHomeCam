@@ -9,6 +9,7 @@ import asyncio
 is_homecamStreaming = False
 homecam_streaming_thread = None
 picam2 = None
+loop = None
 
 async def send_img_data(sio, sid) :
     try : 
@@ -21,7 +22,7 @@ async def send_img_data(sio, sid) :
         print(e)
 
 def streaming(sio, sid) :
-    global picam2, is_homecamStreaming
+    global picam2, is_homecamStreaming, loop
 
     picam2 = Picamera2()
 
@@ -33,16 +34,20 @@ def streaming(sio, sid) :
 
     # Start streaming
     while is_homecamStreaming:  # While streaming flag is True
-        #time.sleep(0.1) 
+        # time.sleep(0.1) 
+        # try:
+        #     loop = asyncio.new_event_loop()
+        #     asyncio.set_event_loop(loop)
+        #     try:
+        #         loop.run_until_complete(send_img_data(sio, sid))
+        #     finally:
+        #         loop.close()
         try:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
                 loop.run_until_complete(send_img_data(sio, sid))
-            finally:
-                loop.close()
         except Exception as e:
             print(f"Error capturing frame: {e}")
+        # finally:
+        #         loop.close()
 
     print("thread out")
     
@@ -59,10 +64,12 @@ def prog_exit() :
         print("Camera stopped and closed ", picam2 is None)
 
 async def start_streaming(sio, sid):
-    global is_homecamStreaming, homecam_streaming_thread
+    global is_homecamStreaming, homecam_streaming_thread, loop
 
     if homecam_streaming_thread is None or not homecam_streaming_thread.is_alive() :
         is_homecamStreaming = True
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         homecam_streaming_thread = threading.Thread(target = streaming, args=(sio, sid))
         homecam_streaming_thread.start()
 

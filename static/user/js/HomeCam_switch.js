@@ -1,5 +1,4 @@
 $(function () {
-    // $('.rgb-3color-led-switch').bootstrapSwitch();
     $('.homecam-switch').bootstrapSwitch();
 
     // 스위치 상태 변경 이벤트 핸들러 등록
@@ -36,7 +35,7 @@ $(function () {
     })
     
     socket.on('ret_homecam_active', function (data) {
-      console.log('homecam streaming ...');
+      console.log('homecam streaming ... ');
       // Blob URL 생성
       const blob = new Blob([data], { type: 'image/jpeg' });
       const blobURL = URL.createObjectURL(blob);
