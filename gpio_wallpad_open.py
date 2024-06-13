@@ -24,8 +24,8 @@ def open_wallpad_exec():
     GPIO.output(servo_pin, True)
     pwm.ChangeDutyCycle(duty)
     time.sleep(1)
-    # GPIO.output(servo_pin, False)
-    # pwm.ChangeDutyCycle(0)
+    GPIO.output(servo_pin, False)
+    pwm.ChangeDutyCycle(0)
 
     # time.sleep(1)
     duty = 2 + (0 / 18)

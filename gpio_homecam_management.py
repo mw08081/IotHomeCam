@@ -25,7 +25,7 @@ async def send_img_data(sio, sid) :
     except Exception as e :
         print(e)
 
-def streaming(sio, sid) :
+async def streaming(sio, sid) :
     global picam2, is_homecamStreaming, loop
 
     picam2 = Picamera2()
@@ -40,7 +40,8 @@ def streaming(sio, sid) :
     # Start streaming
     while is_homecamStreaming:  # While streaming flag is True
         try:
-                loop.run_until_complete(send_img_data(sio, sid))
+            await send_img_data(sio, sid)
+            await asyncio.sleep(0.01)
         except Exception as e:
             print(f"Error capturing frame: {e}")
         # finally:
@@ -50,9 +51,7 @@ def streaming(sio, sid) :
     
 
 def prog_exit() : 
-
     global picam2
-    print("prog exit ", picam2)
 
     if picam2:
         picam2.stop()
@@ -64,28 +63,20 @@ def prog_exit() :
 async def start_streaming(sio, sid):
     global is_homecamStreaming, homecam_streaming_thread, loop
 
-    if homecam_streaming_thread is None or not homecam_streaming_thread.is_alive() :
+    if not is_homecamStreaming:
         is_homecamStreaming = True
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        homecam_streaming_thread = threading.Thread(target = streaming, args=(sio, sid))
-        homecam_streaming_thread.start()
-    elif is_homecamStreaming == True and homecam_streaming_thread is not None :
-        pass
+        asyncio.create_task(streaming(sio, sid))
+    else:
+        print("Streaming is already active")
 
 async def stop_streaming():
     global is_homecamStreaming, homecam_streaming_thread
     
-    if homecam_streaming_thread is not None : 
+    if is_homecamStreaming : 
         is_homecamStreaming = False
         
+        await asyncio.sleep(0.1)
         prog_exit()
-        homecam_streaming_thread.join(timeout = 5)
-        
-        if homecam_streaming_thread.is_alive():
-            print("스레드가 제시간에 종료되지 않았습니다.")
-        else:
-            print("스레드가 성공적으로 종료되었습니다.")
 
 async def get_is_streaming() :
     global is_homecamStreaming
