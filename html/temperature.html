@@ -55,9 +55,13 @@
                         <div id="myTabContent" class="tab-content col-md-12">
                             <div class="tab-pane fade active in" id="Temperature">
                                 <div class="tab-content col-md-12" style="border-top: 1px solid #80808069; padding-top: 10px;">
-                                    <div class="content-row">
-                                        <canvas id="tempChart"></canvas>
+                                    <div class="col-md-12" style="display: flex; align-items: center;">
+                                        <h4>Temperture: </h4><h4 id="tempTxt"></h4>
+                                        <h4 style="margin-left: 40px;">Humidity : </h4><h4 id = "humiTxt"></h4>
                                         <!-- row -->
+                                    </div>
+                                    <div class="row">
+                                        <canvas id="tempChart"></canvas>
                                     </div>
                                     <!-- content-row -->
                                 </div>
@@ -148,6 +152,8 @@ const tempChart = new Chart(ctx, {
 });
 
 $(function(){
+    const tempTxt = document.getElementById('tempTxt');
+    const humiTxt = document.getElementById('humiTxt');
     // 최초 데이터 요청
     socket.emit('get_temperature', {});
     socket.on('ret_temperature', function(data) {
@@ -157,16 +163,20 @@ $(function(){
         const temperature = data.temperature
         const humidity = data.humidity
         if(!(temperature == 0 && humidity == 0)){
-            if (tempChart.data.labels.length > 20) {
-                tempChart.data.labels.shift();  // 레이블 배열에서 첫 번째 요소 제거
-                tempChart.data.datasets.forEach((dataset) => {
-                    dataset.data.shift();  // 데이터셋에서 첫 번째 데이터 제거
-                });
-            }
+            // if (tempChart.data.labels.length > 20) {
+            //     tempChart.data.labels.shift();  // 레이블 배열에서 첫 번째 요소 제거
+            //     tempChart.data.datasets.forEach((dataset) => {
+            //         dataset.data.shift();  // 데이터셋에서 첫 번째 데이터 제거
+            //     });
+            // }
             tempChart.data.labels.push(timeLabel);
             tempChart.data.datasets[0].data.push(temperature);
             tempChart.data.datasets[1].data.push(humidity);
             tempChart.update();
+
+            console.log(typeof temperature);
+            tempTxt.innerText = temperature;
+            humiTxt.innerText = humidity;
         }
     });
 

@@ -19,6 +19,10 @@ $(function () {
     // auto_switch 상태 변경 시 onOff_switch 표시/숨기기
     $('.auto_switch').on('switchChange.bootstrapSwitch', function(event, state) {
         toggleOnOffSwitch(state);
+
+        // if (state) {
+        //     socket.emit('')
+        // }
     });
 
 });

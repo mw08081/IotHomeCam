@@ -16,6 +16,8 @@ from common import web, app  # socket_events.py에서 sio 인스턴스를 가져
 from request_handlers import mainHandle, video_feed, managementHandle, temperatureHandle, lightHandle  # request_handlers.py에서 mainHandle 함수를 가져옵니다.
 import socket_events
 
+from gpio_light_control import start_pir_sensor
+
 
 # 암호화 키 설정 (세선생성의 일련의 과정.. 너무 깊게 생각하지마라..탕) -> commom에서 get_session 이 사용가능(16line)
 SETTING['SECRET_KEY'] = secrets.token_bytes(32)
@@ -38,9 +40,15 @@ async def web_server():
     site = web.TCPSite(runner, '0.0.0.0', 5000) # http://본인아이피:5000
     await site.start()
 
+async def start_pir():
+    print("iot server - start pir")
+    asyncio.create_task(start_pir_sensor())
+
 async def main():
     try:
         await web_server()  # 웹 서버 시작
+        await start_pir()   # 루트에서 실행될 동작감지센서
+
         # 무한 루프로 서버가 계속 실행되도록 유지
         while True:
             await asyncio.sleep(3600)  # 예시로, 1시간마다 대기를 풀고 다시 대기함

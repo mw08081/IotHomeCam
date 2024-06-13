@@ -1,9 +1,13 @@
-# from flask import Flask, render_template, Response
 from picamera2 import Picamera2
 import io
 import time
 import threading
 import asyncio
+import RPi.GPIO as GPIO
+
+LED_PIN = 27
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED_PIN, GPIO.OUT)
 
 # 스레드 중지를 위한 플래그
 is_homecamStreaming = False
@@ -31,17 +35,10 @@ def streaming(sio, sid) :
     
     picam2.start()
     time.sleep(2)
+    GPIO.output(LED_PIN, GPIO.HIGH)
 
     # Start streaming
     while is_homecamStreaming:  # While streaming flag is True
-        # time.sleep(0.1) 
-        # try:
-        #     loop = asyncio.new_event_loop()
-        #     asyncio.set_event_loop(loop)
-        #     try:
-        #         loop.run_until_complete(send_img_data(sio, sid))
-        #     finally:
-        #         loop.close()
         try:
                 loop.run_until_complete(send_img_data(sio, sid))
         except Exception as e:
@@ -61,6 +58,7 @@ def prog_exit() :
         picam2.stop()
         picam2.close()
         picam2 = None
+        GPIO.output(LED_PIN, GPIO.LOW)
         print("Camera stopped and closed ", picam2 is None)
 
 async def start_streaming(sio, sid):

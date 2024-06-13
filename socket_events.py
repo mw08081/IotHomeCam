@@ -62,3 +62,16 @@ async def on_ret_wallpad_open(sid):
 async def on_get_temperature(sid, data):
     await start_temperature(sio, sid)
     #data['state'] = await temperature_state()
+
+
+@sio.on('set_light_control_isAuto')
+async def on_set_light_control_isAuto(sid, data):
+    print("set_light_control_isAuto", sid, data)
+    if data['data'] == 'on':
+        # PIR 메인스레드 실행
+        print(sid, data)
+        # await start_streaming(sio, sid)
+    elif data['data'] == 'off':
+        # PIR 메인스레드 join
+        # await stop_streaming()
+        pass

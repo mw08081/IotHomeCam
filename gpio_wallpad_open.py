@@ -18,14 +18,16 @@ wallpad_open_thread = None
 
 def open_wallpad_exec():
     print("open")
+    # 모터를 좀 더 천천히 돌리자
+    
     duty = 2 + (90 / 18)
     GPIO.output(servo_pin, True)
     pwm.ChangeDutyCycle(duty)
     time.sleep(1)
-    GPIO.output(servo_pin, False)
-    pwm.ChangeDutyCycle(0)
+    # GPIO.output(servo_pin, False)
+    # pwm.ChangeDutyCycle(0)
 
-    time.sleep(1)
+    # time.sleep(1)
     duty = 2 + (0 / 18)
     GPIO.output(servo_pin, True)
     pwm.ChangeDutyCycle(duty)
