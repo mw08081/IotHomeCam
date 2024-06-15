@@ -11,9 +11,7 @@ GPIO.setup(LED_PIN, GPIO.OUT)
 
 # 스레드 중지를 위한 플래그
 is_homecamStreaming = False
-homecam_streaming_thread = None
 picam2 = None
-loop = None
 
 async def send_img_data(sio, sid) :
     try : 
@@ -26,7 +24,7 @@ async def send_img_data(sio, sid) :
         print(e)
 
 async def streaming(sio, sid) :
-    global picam2, is_homecamStreaming, loop
+    global picam2
 
     picam2 = Picamera2()
 
@@ -44,11 +42,18 @@ async def streaming(sio, sid) :
             await asyncio.sleep(0.01)
         except Exception as e:
             print(f"Error capturing frame: {e}")
-        # finally:
-        #         loop.close()
 
     print("thread out")
-    
+ 
+
+async def start_streaming(sio, sid):
+    global is_homecamStreaming
+
+    if not is_homecamStreaming:
+        is_homecamStreaming = True
+        asyncio.create_task(streaming(sio, sid))
+    else:
+        print("Streaming is already active")
 
 def prog_exit() : 
     global picam2
@@ -60,17 +65,8 @@ def prog_exit() :
         GPIO.output(LED_PIN, GPIO.LOW)
         print("Camera stopped and closed ", picam2 is None)
 
-async def start_streaming(sio, sid):
-    global is_homecamStreaming, homecam_streaming_thread, loop
-
-    if not is_homecamStreaming:
-        is_homecamStreaming = True
-        asyncio.create_task(streaming(sio, sid))
-    else:
-        print("Streaming is already active")
-
 async def stop_streaming():
-    global is_homecamStreaming, homecam_streaming_thread
+    global is_homecamStreaming
     
     if is_homecamStreaming : 
         is_homecamStreaming = False

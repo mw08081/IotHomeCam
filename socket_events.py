@@ -4,6 +4,7 @@ from gpio_3_color_led import start_rgb_3color_leds, stop_rgb_3color_leds, rgb_3c
 from gpio_homecam_management import start_streaming, stop_streaming, get_is_streaming
 from gpio_wallpad_open import open_wallpad
 from gpio_temperature import start_temperature
+from gpio_light_control import Manage_light_manually, Manage_lightingSystem_mechanism
 
 @sio.event
 async def connect(sid, environ):
@@ -15,26 +16,6 @@ async def disconnect(sid):
 async def on_get_system_info(sid, data):
     systemInfo = get_system_info()
     await sio.emit('ret_system_info', systemInfo, room=sid)
-
-
-# @sio.on('set_3color_led')
-# async def on_set_3color_led(sid, data):
-#     print("set_3color_led", sid, data)
-#     if data['data'] == 'on':
-#         await start_rgb_3color_leds()
-#     elif data['data'] == 'off':
-#         print("led 스위치 off", sid, data)
-#         await stop_rgb_3color_leds()
-
-#     # 이거 안보내도 될거같은데;;
-#     # data['state'] = await rgb_3color_leds_state()
-#     # await sio.emit('ret_3color_led', data, room=sid)
-
-# @sio.on('get_3color_led')
-# async def on_get_3color_led(sid, data):
-#     data['state'] = await rgb_3color_leds_state()
-#     await sio.emit('ret_3color_led', data, room=sid)
-
 
 @sio.on('set_homecam_state')
 async def on_set_homecam_state(sid, data):
@@ -50,9 +31,6 @@ async def on_get_homecam_state(sid, data):
     data['state'] = await get_is_streaming()
     print(data)
     await sio.emit('set_homecam_switch_state', data, room=sid)
-    # await sio.emit('ret_homecam_active', data, room=sid)
-    # if (data['state']) :
-    #     await start_streaming(sio, sid)
 
 @sio.on('ret_wallpad_open')
 async def on_ret_wallpad_open(sid):
@@ -61,17 +39,14 @@ async def on_ret_wallpad_open(sid):
 @sio.on('get_temperature')
 async def on_get_temperature(sid, data):
     await start_temperature(sio, sid)
-    #data['state'] = await temperature_state()
 
+@sio.on('set_lightingSystem_mechanism')
+async def on_set_lightingSystem_mechanism(sid, data):
+    print("set_lightingSystem_mechanism", sid, data)
+    await Manage_lightingSystem_mechanism(data)
 
-@sio.on('set_light_control_isAuto')
-async def on_set_light_control_isAuto(sid, data):
-    print("set_light_control_isAuto", sid, data)
-    if data['data'] == 'on':
-        # PIR 메인스레드 실행
-        print(sid, data)
-        # await start_streaming(sio, sid)
-    elif data['data'] == 'off':
-        # PIR 메인스레드 join
-        # await stop_streaming()
-        pass
+@sio.on('set_light_state')
+async def on_set_light_state(sid, data):
+    print("set_light_state", sid, data)
+    await Manage_light_manually(data)
+    

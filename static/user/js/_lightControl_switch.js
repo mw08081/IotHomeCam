@@ -19,10 +19,12 @@ $(function () {
     // auto_switch 상태 변경 시 onOff_switch 표시/숨기기
     $('.auto_switch').on('switchChange.bootstrapSwitch', function(event, state) {
         toggleOnOffSwitch(state);
-
-        // if (state) {
-        //     socket.emit('')
-        // }
+        socket.emit('set_lightingSystem_mechanism', state)
     });
 
+    $('.onOff_switch').on('switchChange.bootstrapSwitch', function(event, state) {
+        console.log('toggle light on off switch');
+        socket.emit('set_light_state', state);
+    });
+    
 });

@@ -16,7 +16,7 @@ from common import web, app  # socket_events.py에서 sio 인스턴스를 가져
 from request_handlers import mainHandle, video_feed, managementHandle, temperatureHandle, lightHandle  # request_handlers.py에서 mainHandle 함수를 가져옵니다.
 import socket_events
 
-from gpio_light_control import start_pir_sensor
+from gpio_light_control import start_sensors
 
 
 # 암호화 키 설정 (세선생성의 일련의 과정.. 너무 깊게 생각하지마라..탕) -> commom에서 get_session 이 사용가능(16line)
@@ -28,8 +28,7 @@ setup(app, EncryptedCookieStorage(SETTING['SECRET_KEY'], cookie_name=SETTING['CO
 async def web_server():
     app.router.add_static('/static/', path='static/', name='static')    # /static은 직접 설정한 폴더위치 -> http://ipAddr/static/~
 
-    app.router.add_get('/', mainHandle)                 #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 가뿌려준다)
-    app.router.add_get('/video_feed', video_feed) 
+    app.router.add_get('/', mainHandle)                 #  메인핸들러 (리퀘스트 핸들러에의해 index.html을 뿌려준다)
     app.router.add_get('/temperature', temperatureHandle)
     app.router.add_get('/light', lightHandle)
     # app.router.add_get('/management', managementHandle) 
@@ -40,14 +39,13 @@ async def web_server():
     site = web.TCPSite(runner, '0.0.0.0', 5000) # http://본인아이피:5000
     await site.start()
 
-async def start_pir():
-    print("iot server - start pir")
-    asyncio.create_task(start_pir_sensor())
+async def start_sensors_main():
+    asyncio.create_task(start_sensors())
 
 async def main():
     try:
         await web_server()  # 웹 서버 시작
-        await start_pir()   # 루트에서 실행될 동작감지센서
+        await start_sensors_main()   # 루트에서 실행될 동작감지센서
 
         # 무한 루프로 서버가 계속 실행되도록 유지
         while True:
