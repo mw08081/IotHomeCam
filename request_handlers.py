@@ -4,6 +4,15 @@ from common import response_html
 async def mainHandle(request):
     return response_html('index.html')
 
+async def logHandle(request):
+    return response_html('log.html')
+
+
+
+
+
+
+
 async def video_feed(request):
     return response_html('homecam.html')
 
@@ -12,6 +21,7 @@ async def temperatureHandle(request):
 
 async def lightHandle(request):
     return response_html('light.html')
+
 
 
 

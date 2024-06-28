@@ -21,7 +21,11 @@ $(function () {
         }
     });
 
-    socket.emit('get_homecam_state', {});
+    socket.emit('set_homecam_state', {'data' : 'off'});
+    socket.emit('set_homecam_state', {'data' : 'on'});
+
+
+    // socket.emit('get_homecam_state', {});
     socket.on('set_homecam_switch_state', function(data) {
       console.log('homecam switch state : ', data);
 

@@ -65,7 +65,7 @@
 						<div class="col-md-6">
 							<ul id="myTab" class="nav nav-pills nav-justified">
 
-								<li class="active"><a href="#Wallpad" data-toggle="tab">Wall Pad Viewer</a></li>
+								<li class="active"><a href="#Wallpad" data-toggle="tab">CCTV Viewer</a></li>
 								<!-- <li><a href="#Homecam" data-toggle="tab">Home Cam Viewer</a></li> -->
 							</ul>
 						</div>
@@ -73,20 +73,20 @@
 						
 						<div id="myTabContent" class="tab-content col-md-12">
 
-							<!-- wall pad viewer -->
+							<!--CCTV Viewer -->
 							<div class="tab-pane fade active in" id="Wallpad">
                                 <div class="tab-content col-md-12" style="border-top: 1px solid #80808069; padding-top: 10px;">
                                     <div class="content-row">
 										<div class="col-md-12" style="display: flex; align-items: center;">
                                             <!-- Switch Button -->
-                                            
-											<input type="checkbox" class="homecam-switch">
-											<button id="wallPad_open_btn" onclick="wallpad_open_onClick()" style="display: none;margin-left: 50px;">OPEN</button>
+<!--                                             
+											<input type="checkbox" class="homecam-switch"> -->
+											<button id="wallPad_open_btn" onclick="camera_recording_start_btn_onClick()" style="display: block;">RECORD</button>
 										</div>
                                         </div>                                        
                                         <div class="row">
 											<!-- Stream Homecam -->
-											<img id="streamHomecam" style="display:none;">
+											<img id="streamHomecam" style="display:block;">
 										</div>
                                         <div class="row">
 											<!-- <button id="wallPad_open_btn" onclick="wallPad_open_onClick()" style="display:none;">OPEN</button> -->
@@ -356,7 +356,7 @@
 
 
 <script src="static/user/js/_homeCam_switch.js?var={{rand}}"></script>
-<script src="static/user/js/_wallPad_open_btn.js?var={{rand}}"></script>>
+<script src="static/user/js/_camera_start_record_btn.js?var={{rand}}"></script>>
 alertShow('');
 </script>
 

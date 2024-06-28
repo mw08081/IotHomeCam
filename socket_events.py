@@ -1,7 +1,7 @@
 from common import get_system_info, sio  # common.py에서 get_system_info 함수, sio 변수를 가져옵니다.
 
 from gpio_3_color_led import start_rgb_3color_leds, stop_rgb_3color_leds, rgb_3color_leds_state
-from gpio_homecam_management import start_streaming, stop_streaming, get_is_streaming
+from gpio_homecam_management import start_streaming, stop_streaming, ret_start_record, get_is_streaming
 from gpio_wallpad_open import open_wallpad
 from gpio_temperature import start_temperature
 from gpio_light_control import Manage_light_manually, Manage_lightingSystem_mechanism
@@ -31,6 +31,13 @@ async def on_get_homecam_state(sid, data):
     data['state'] = await get_is_streaming()
     print(data)
     await sio.emit('set_homecam_switch_state', data, room=sid)
+
+@sio.on('ret_camera_recording_start')
+async def on_ret_camera_recording_start(sid):
+    await ret_start_record()
+
+
+
 
 @sio.on('ret_wallpad_open')
 async def on_ret_wallpad_open(sid):
