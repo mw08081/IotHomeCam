@@ -5,6 +5,7 @@ from datetime import datetime
 import threading
 import asyncio
 import RPi.GPIO as GPIO
+import os
 
 
 can_record = False
@@ -20,6 +21,18 @@ picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480)}))
 picam2.start()
 time.sleep(2)
 
+def create_logImgDirectory():
+    directory_path = '/home/pi/iot/iot/LogImg'
+
+    try:
+        # 디렉토리가 없으면 생성
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+            print(f"Directory '{directory_path}' created successfully")
+
+    except Exception as e:
+        print(f"Failed to create directory: {e}")
+
 async def ret_start_record():
     global can_record
 
@@ -31,6 +44,8 @@ async def ret_start_record():
         print('already recording...')
 
 async def recording(frame) :
+    create_logImgDirectory()
+    
     try :
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-5]  # 마지막 두 자리(밀리초)를 제외하고 가져옴
         output_file_path = f'/home/pi/iot/iot/LogImg/{current_time}.jpg'
