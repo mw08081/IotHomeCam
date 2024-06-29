@@ -21,30 +21,44 @@ picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480)}))
 picam2.start()
 time.sleep(2)
 
-def create_logImgDirectory():
-    directory_path = '/home/pi/iot/iot/LogImg'
-
+def create_Directory(path):
     try:
         # 디렉토리가 없으면 생성
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path)
-            print(f"Directory '{directory_path}' created successfully")
+        if not os.path.exists(path):
+            os.makedirs(path)
+            print(f"Directory '{path}' created successfully")
 
     except Exception as e:
         print(f"Failed to create directory: {e}")
+
+def add_log():
+    logTxt_directory = '/home/pi/iot/iot/LogFile'
+    create_Directory(logTxt_directory)
+
+    log_file = os.path.join(logTxt_directory, 'log.txt')
+
+    # 현재 날짜와 시간을 포맷
+    current_log = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # 로그 추가
+    with open(log_file, 'a') as f:
+        f.write(current_log + '\n')
 
 async def ret_start_record():
     global can_record
 
     if not can_record : 
         can_record = True
+        add_log()
+
         await asyncio.sleep(10)
         can_record = False
     else :
         print('already recording...')
 
 async def recording(frame) :
-    create_logImgDirectory()
+    logImg_directory = '/home/pi/iot/iot/LogImg'
+    create_Directory(logImg_directory)
     
     try :
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-5]  # 마지막 두 자리(밀리초)를 제외하고 가져옴
