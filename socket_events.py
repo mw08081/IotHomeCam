@@ -1,10 +1,13 @@
 from common import get_system_info, sio  # common.py에서 get_system_info 함수, sio 변수를 가져옵니다.
 
 from gpio_3_color_led import start_rgb_3color_leds, stop_rgb_3color_leds, rgb_3color_leds_state
-from gpio_homecam_management import start_streaming, stop_streaming, ret_start_record, get_is_streaming
-from gpio_wallpad_open import open_wallpad
-from gpio_temperature import start_temperature
-from gpio_light_control import Manage_light_manually, Manage_lightingSystem_mechanism
+from gpio_cctv_management import start_streaming, stop_streaming, ret_start_record, get_is_streaming
+from gpio_log_manager import refresh_log
+
+
+# from gpio_wallpad_open import open_wallpad
+# from gpio_temperature import start_temperature
+# from gpio_light_control import Manage_light_manually, Manage_lightingSystem_mechanism
 
 @sio.event
 async def connect(sid, environ):
@@ -35,6 +38,15 @@ async def on_get_homecam_state(sid, data):
 @sio.on('ret_camera_recording_start')
 async def on_ret_camera_recording_start(sid):
     await ret_start_record()
+
+
+@sio.on('ret_log_refresh')
+async def on_ret_log_refresh(sid):
+    await refresh_log()
+
+
+
+# 프로젝트 전향으로 이하 함수는 사용되지 않음 deprecated
 
 
 

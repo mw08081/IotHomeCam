@@ -1,7 +1,8 @@
 $(function () {
-    $('.homecam-switch').bootstrapSwitch();
+    // $('.homecam-switch').bootstrapSwitch();
 
     // 스위치 상태 변경 이벤트 핸들러 등록
+    /*
     $('.homecam-switch').on('switchChange.bootstrapSwitch', function (event, state) {
         const img = document.getElementById('streamHomecam');
         const btn = document.getElementById('wallPad_open_btn');
@@ -20,12 +21,13 @@ $(function () {
             socket.emit('set_homecam_state', {'data':'off'});
         }
     });
-
+    */
     socket.emit('set_homecam_state', {'data' : 'off'});
     socket.emit('set_homecam_state', {'data' : 'on'});
 
 
     // socket.emit('get_homecam_state', {});
+    /*
     socket.on('set_homecam_switch_state', function(data) {
       console.log('homecam switch state : ', data);
 
@@ -43,7 +45,8 @@ $(function () {
         btn.style.display = 'none';
         socket.emit('set_homecam_state', {'data':'off'});
       }
-    })
+    });
+    */
     
     socket.on('ret_homecam_active', function (data) {
       console.log('homecam streaming ... ');

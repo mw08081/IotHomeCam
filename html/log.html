@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8">
-    <title>조명 관리</title>
+    <title>로그 관리</title>
     <meta name="viewport"
         content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="favicon_16.ico" />
@@ -24,6 +24,12 @@
     <link rel="stylesheet" type="text/css" href="static/user/css/custom_bootstrap_switch.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
     <!-- bootstrap-switch 추가 -->
+
+
+    <!-- custum : 내가 추가한 코드들 !!!!!!!!!!!!!-->
+    <!-- button style 추가 -->
+    <link rel="stylesheet" href="static/user/css/custom_btn.css"> 
+    <!-- custum : 내가 추가한 코드들 -->
 </head>
 <body>
     <!-- https://www.w3schools.com/bootstrap/default.asp -->    
@@ -49,17 +55,25 @@
                         <!-- Tab Menu -->
                         <div class="col-md-6">
                             <ul id="myTab" class="nav nav-pills nav-justified">
-                                <li class="active"><a href="#Light" data-toggle="tab">Light</a></li>
+                                <li class="active"><a href="#Log" data-toggle="tab">Log</a></li>
                             </ul>
                         </div>
                         <!-- Tab Menu End-->
                         <div id="myTabContent" class="tab-content col-md-12">
-                            <div class="tab-pane fade active in" id="Light">
+                            <div class="tab-pane fade active in" id="Log">
                                 <div class="tab-content col-md-12" style="border-top: 1px solid #80808069; padding-top: 10px;">
                                     <div class="content-row">
                                         <div>
+                                            <button id="log_refresh" onclick="log_refresh_btn_onClick()" style="display: block;">REFRESH</button>
                                             <p>When the switch is set to auto, the lighting system is operated by the PIR sensor. Otherwise, the lighting system operates under user control.</p>
                                         </div>
+                                        <!-- <div class="col-md-12" style="display: flex; align-items: center;">
+										</div> -->
+
+
+
+
+
                                     </div>
                                     <!-- content-row -->
                                 </div>
@@ -120,7 +134,7 @@
 <script type="text/javascript" src="static/lib/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="static/lib/js/dataTables.bootstrap.min.js"></script>
 <script src="static/user/js/system_info.js?var={{rand}}"></script>
-<script src="static/user/js/_lightControl_switch.js?var={{rand}}"></script>
+<script src="static/user/js/_log_manager.js?var={{rand}}"></script>
 <script>
 alertShow('');
 

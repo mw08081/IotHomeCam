@@ -4,7 +4,6 @@ import time
 from datetime import datetime
 import threading
 import asyncio
-import RPi.GPIO as GPIO
 import os
 
 
