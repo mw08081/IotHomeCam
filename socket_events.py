@@ -42,7 +42,7 @@ async def on_ret_camera_recording_start(sid):
 
 @sio.on('ret_log_refresh')
 async def on_ret_log_refresh(sid):
-    await refresh_log()
+    await refresh_log(sio, sid)
 
 
 
